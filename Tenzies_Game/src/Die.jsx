@@ -1,5 +1,3 @@
-import Box from "@mui/material/Box";
-
 export default function Die({ children, holdDie, isHeld }) {
   return (
     <div

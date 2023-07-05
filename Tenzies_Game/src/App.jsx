@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Die from "./Die";
 import { nanoid } from "nanoid";
 
@@ -9,6 +9,19 @@ import Typography from "@mui/material/Typography";
 export default function App() {
   const [dice, setDice] = useState(allNewDice());
   const [rolls, setRolls] = useState(0);
+  const [hasWon, setHasWon] = useState(false);
+
+  useEffect(() => {
+    const allDiceHeld = dice.every((die) => die.isHeld);
+    const allDiceSame = dice.every((die) => die.value === dice[0].value);
+
+    if (allDiceHeld && allDiceSame) {
+      setHasWon(true);
+      console.log("you win!");
+    } else {
+      console.log("try again!");
+    }
+  }, [dice]);
 
   function generateNewDie() {
     return {
@@ -39,6 +52,7 @@ export default function App() {
   }
 
   function rollDice() {
+    setRolls((prev) => prev + 1);
     setDice((prevDice) =>
       prevDice.map((die) => {
         if (die.isHeld) {
