@@ -10,25 +10,41 @@ export default function App() {
   const [dice, setDice] = useState(allNewDice());
   const [rolls, setRolls] = useState(0);
 
+  function generateNewDie() {
+    return {
+      value: Math.ceil(Math.random() * 6),
+      id: nanoid(),
+      isHeld: false,
+    };
+  }
+
   function allNewDice() {
     const newDice = [];
     for (let i = 0; i < 10; i++) {
-      newDice.push({
-        value: Math.ceil(Math.random() * 6),
-        id: nanoid(),
-        isHeld: false,
-      });
+      newDice.push(generateNewDie());
     }
     return newDice;
   }
 
   function holdDie(dieId) {
-    setDice(
-      dice.map((die) => {
+    setDice((prevDice) =>
+      prevDice.map((die) => {
         if (die.id === dieId) {
           return { ...die, isHeld: !die.isHeld };
         } else {
           return die;
+        }
+      })
+    );
+  }
+
+  function rollDice() {
+    setDice((prevDice) =>
+      prevDice.map((die) => {
+        if (die.isHeld) {
+          return die;
+        } else {
+          return generateNewDie();
         }
       })
     );
@@ -65,7 +81,11 @@ export default function App() {
           variant="h6"
           sx={{ mt: "1rem" }}
         >{`You have rolled ${rolls} times`}</Typography>
-        <Button variant="contained" sx={{ mt: "1rem", width: "8rem" }}>
+        <Button
+          variant="contained"
+          onClick={rollDice}
+          sx={{ mt: "1rem", width: "8rem" }}
+        >
           Roll
         </Button>
       </div>
