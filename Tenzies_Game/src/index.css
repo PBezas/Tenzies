@@ -14,6 +14,7 @@
 .game-container {
   font-family: "Caprasimo", cursive;
   background-color: #dad7cd;
+  min-width: 500px;
   max-width: 500px;
   height: 500px;
   border: 5px solid #212529;
@@ -59,4 +60,8 @@ h1 {
 
 .dieIsNotHeld {
   background-color: #8ecae6;
+}
+
+.confetti {
+  width: 100%;
 }

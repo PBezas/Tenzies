@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Die from "./Die";
 import { nanoid } from "nanoid";
+import Confetti from "react-confetti";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -52,45 +53,81 @@ export default function App() {
   }
 
   function rollDice() {
-    setRolls((prev) => prev + 1);
-    setDice((prevDice) =>
-      prevDice.map((die) => {
-        if (die.isHeld) {
-          return die;
-        } else {
-          return generateNewDie();
-        }
-      })
-    );
+    if (!hasWon) {
+      setRolls((prev) => prev + 1);
+      setDice((prevDice) =>
+        prevDice.map((die) => {
+          if (die.isHeld) {
+            return die;
+          } else {
+            return generateNewDie();
+          }
+        })
+      );
+    } else {
+      setRolls(0);
+      setHasWon(false);
+      setDice(allNewDice());
+    }
   }
 
   return (
     <div className="container">
       <div className="game-container">
+        {hasWon && <Confetti className="confetti" />}
         <h1>Tenzies</h1>
-        <p className="instructions">
-          Roll until all dice have the same value. Click each die to freeze it
-          at its current value between rolls.
-        </p>
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 3,
-            justifyContent: "space-between",
-            mt: "1rem",
-          }}
-        >
-          {dice.map((die) => (
-            <Die
-              key={die.id}
-              isHeld={die.isHeld}
-              holdDie={() => holdDie(die.id)}
+        {!hasWon ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            <p className="instructions">
+              Roll until all dice have the same value. Click each die to freeze
+              it at its current value between rolls.
+            </p>
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 3,
+                justifyContent: "space-between",
+                mt: "1rem",
+              }}
             >
-              {die.value}
-            </Die>
-          ))}
-        </Box>
+              {dice.map((die) => (
+                <Die
+                  key={die.id}
+                  isHeld={die.isHeld}
+                  holdDie={() => holdDie(die.id)}
+                >
+                  {die.value}
+                </Die>
+              ))}
+            </Box>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+              alignItems: "center",
+              color: "#57cc99",
+              mt: "2rem",
+              mb: "6.3rem",
+            }}
+          >
+            <h2 style={{ fontSize: "2.5rem", margin: "0.5rem" }}>
+              Congratulations!
+            </h2>
+            <h2 style={{ fontSize: "2.5rem", margin: "0.5rem" }}>You won!</h2>
+          </Box>
+        )}
         <Typography
           variant="h6"
           sx={{ mt: "1rem" }}
@@ -100,7 +137,7 @@ export default function App() {
           onClick={rollDice}
           sx={{ mt: "1rem", width: "8rem" }}
         >
-          Roll
+          {hasWon ? "New Game" : "Roll"}
         </Button>
       </div>
     </div>
