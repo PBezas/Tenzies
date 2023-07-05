@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 
 export default function App() {
   const [dice, setDice] = useState(allNewDice());
-  const [countRolls, setCountRolls] = useState(0);
+  const [rolls, setRolls] = useState(0);
 
   function allNewDice() {
     const newDice = [];
@@ -16,12 +16,23 @@ export default function App() {
       newDice.push({
         value: Math.ceil(Math.random() * 6),
         id: nanoid(),
+        isHeld: false,
       });
     }
     return newDice;
   }
 
-  console.log(dice);
+  function holdDie(dieId) {
+    setDice(
+      dice.map((die) => {
+        if (die.id === dieId) {
+          return { ...die, isHeld: !die.isHeld };
+        } else {
+          return die;
+        }
+      })
+    );
+  }
 
   return (
     <div className="container">
@@ -41,13 +52,19 @@ export default function App() {
           }}
         >
           {dice.map((die) => (
-            <Die key={die.id}>{die.value}</Die>
+            <Die
+              key={die.id}
+              isHeld={die.isHeld}
+              holdDie={() => holdDie(die.id)}
+            >
+              {die.value}
+            </Die>
           ))}
         </Box>
         <Typography
           variant="h6"
           sx={{ mt: "1rem" }}
-        >{`You have rolled ${countRolls} times`}</Typography>
+        >{`You have rolled ${rolls} times`}</Typography>
         <Button variant="contained" sx={{ mt: "1rem", width: "8rem" }}>
           Roll
         </Button>
