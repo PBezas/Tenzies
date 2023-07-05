@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import Die from "./Die";
+import Timer from "./Timer";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+
 import Typography from "@mui/material/Typography";
 
 export default function App() {
@@ -128,10 +130,17 @@ export default function App() {
             <h2 style={{ fontSize: "2.5rem", margin: "0.5rem" }}>You won!</h2>
           </Box>
         )}
-        <Typography
-          variant="h6"
-          sx={{ mt: "1rem" }}
-        >{`You have rolled ${rolls} times`}</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "1rem",
+            mt: "1rem",
+          }}
+        >
+          <Typography variant="h6">{`You have rolled ${rolls} times`}</Typography>
+          <Timer rolls={rolls} hasWon={hasWon} />
+        </Box>
         <Button
           variant="contained"
           onClick={rollDice}
