@@ -1,18 +1,33 @@
 :root {
   background-color: #264653;
+  font-family: "Caprasimo", cursive;
 }
 
 .container {
+  font-family: "Caprasimo", cursive;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 50rem;
 }
 
-.dice-container {
+.game-container {
+  font-family: "Caprasimo", cursive;
   background-color: #dad7cd;
   width: 700px;
-  height: 500px;
-  border: 2px solid #495057;
+  height: 550px;
+  border: 5px solid #212529;
   border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 3.5rem;
+}
+
+.instructions {
+  width: 60%;
+  text-align: center;
 }
