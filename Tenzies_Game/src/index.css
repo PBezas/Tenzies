@@ -1,0 +1,18 @@
+:root {
+  background-color: #264653;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50rem;
+}
+
+.dice-container {
+  background-color: #dad7cd;
+  width: 700px;
+  height: 500px;
+  border: 2px solid #495057;
+  border-radius: 2rem;
+}
