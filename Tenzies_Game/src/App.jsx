@@ -132,6 +132,7 @@ export default function App() {
         )}
         <Box
           sx={{
+            width: "100%",
             display: "flex",
             justifyContent: "space-between",
             gap: "1rem",

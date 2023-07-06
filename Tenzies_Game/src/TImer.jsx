@@ -1,18 +1,26 @@
 import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 
-export default function Timer() {
+export default function Timer({ rolls, hasWon }) {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setSeconds((prevSeconds) => prevSeconds + 1);
-    }, 1000);
+    let intervalId = null;
+
+    if (!hasWon) {
+      intervalId = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds + 1);
+      }, 1000);
+    }
+
+    if (!hasWon && rolls === 0) {
+      setSeconds(0);
+    }
 
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [rolls, hasWon]);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -23,8 +31,6 @@ export default function Timer() {
   };
 
   return (
-    <div>
-      <Typography variant="h6">Time ellapsed: {formatTime(seconds)}</Typography>
-    </div>
+    <Typography variant="h6">Time ellapsed: {formatTime(seconds)}</Typography>
   );
 }
