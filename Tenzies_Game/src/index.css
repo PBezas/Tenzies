@@ -60,11 +60,6 @@ h1 {
   padding: 0.5rem;
 }
 
-.pip {
-  margin: none;
-  padding: none;
-}
-
 .die:hover {
   outline: 2px solid #4fe6a4;
 }
