@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import Die from "./Die";
-import Timer from "./Timer";
-import { nanoid } from "nanoid";
-import Confetti from "react-confetti";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Confetti from "react-confetti";
+import Die from "./components/Die";
 
+import { generateNewDie } from "./lib";
+import Timer from "./components/Timer";
 import Typography from "@mui/material/Typography";
 
 export default function App() {
@@ -20,19 +20,8 @@ export default function App() {
 
     if (allDiceHeld && allDiceSame) {
       setHasWon(true);
-      console.log("you win!");
-    } else {
-      console.log("try again!");
     }
   }, [dice]);
-
-  function generateNewDie() {
-    return {
-      value: Math.ceil(Math.random() * 6),
-      id: nanoid(),
-      isHeld: false,
-    };
-  }
 
   function allNewDice() {
     const newDice = [];
@@ -101,13 +90,13 @@ export default function App() {
                 mt: "1rem",
               }}
             >
-              {dice.map((die) => (
+              {dice?.map((die) => (
                 <Die
                   key={die.id}
                   isHeld={die.isHeld}
                   holdDie={() => holdDie(die.id)}
                 >
-                  {die.value}
+                  <img className="face" src={die.faces[die.value]}></img>
                 </Die>
               ))}
             </Box>
