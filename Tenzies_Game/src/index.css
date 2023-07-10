@@ -3,8 +3,13 @@
 }
 
 :root {
-  background-color: #264653;
+  height: 100%;
   font-family: "Caprasimo", cursive;
+}
+
+body {
+  background: url("./images/bg_image.jpg") no-repeat 100%;
+  background-size: cover;
 }
 
 .container {
