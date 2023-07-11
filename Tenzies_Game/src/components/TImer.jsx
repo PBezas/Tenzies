@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Typography from "@mui/material/Typography";
 
-export default function Timer({ rolls, hasWon }) {
-  const [seconds, setSeconds] = useState(0);
 
+export default function Timer({ children, rolls, hasWon, setSeconds }) {
   useEffect(() => {
     let intervalId = null;
 
@@ -22,15 +21,5 @@ export default function Timer({ rolls, hasWon }) {
     };
   }, [rolls, hasWon]);
 
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
-  };
-
-  return (
-    <Typography variant="h6">Time ellapsed: {formatTime(seconds)}</Typography>
-  );
+  return <Typography variant="h6">{children}</Typography>;
 }

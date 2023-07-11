@@ -20,23 +20,39 @@ body {
   height: 50rem;
 }
 
+.confetti {
+  width: 100%;
+}
+
 .game-container {
   font-family: "Caprasimo", cursive;
   background-color: #dad7cd;
-  min-width: 500px;
-  max-width: 500px;
-  height: 500px;
+  min-width: 31.25rem;
+  max-width: 31.25rem;
+  height: 31.25rem;
   border: 5px solid #212529;
   border-radius: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  padding: 1rem;
 }
 
-h1 {
+.app_title {
+  flex-grow: 1;
+}
+
+.app_title h1 {
   font-size: 3.5rem;
-  margin: 0.5rem;
+  margin: 0;
+}
+
+.app_main {
+  flex-grow: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .instructions {
@@ -44,15 +60,17 @@ h1 {
   text-align: center;
 }
 
-.die {
+.dice_container {
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
 
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 60px;
-  height: 60px;
+.die {
+  width: 4rem;
+  height: 4rem;
 
   border: 2px solid #d2d1d1;
   border-radius: 0.4rem;
@@ -77,11 +95,59 @@ h1 {
   background-color: #fff;
 }
 
-.confetti {
-  width: 100%;
-}
-
 .face {
   width: 100%;
   opacity: 0.78;
+}
+
+.app_counters {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.win_msg {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  color: #57cc99;
+}
+
+.win_counters {
+  font-size: 1.4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  color: #000;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.app_button {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app_button button {
+  width: 8rem;
+  font-size: 1.2rem;
+  color: rgb(255, 255, 255);
+  height: 2.5rem;
+  background-color: #4fe6a4;
+  border: none;
+  border-radius: 5px;
+  /* font-family: "Caprasimo", "cursive"; */
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.app_button button:hover {
+  background-color: #2ed78e;
 }

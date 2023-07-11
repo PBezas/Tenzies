@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Confetti from "react-confetti";
 import Die from "./components/Die";
 
-import { generateNewDie } from "./lib";
+import { generateNewDie, formatTime } from "./lib";
 import Timer from "./components/Timer";
 import Typography from "@mui/material/Typography";
 
@@ -13,6 +13,7 @@ export default function App() {
   const [dice, setDice] = useState(allNewDice());
   const [rolls, setRolls] = useState(0);
   const [hasWon, setHasWon] = useState(false);
+  const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
     const allDiceHeld = dice.every((die) => die.isHeld);
@@ -22,6 +23,15 @@ export default function App() {
       setHasWon(true);
     }
   }, [dice]);
+
+  useEffect(() => {
+    let rollsHistory = [];
+    if (hasWon) {
+      rollsHistory.push(rolls);
+      localStorage.setItem("rolls", JSON.stringify(rollsHistory));
+      localStorage.setItem("time", seconds);
+    }
+  }, [hasWon]);
 
   function allNewDice() {
     const newDice = [];
@@ -66,30 +76,17 @@ export default function App() {
     <div className="container">
       <div className="game-container">
         {hasWon && <Confetti className="confetti" />}
-        <h1>Tenzies</h1>
+        <Box className="app_title">
+          <h1>Tenzies</h1>
+        </Box>
         {!hasWon ? (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <Box className="app_main">
             {" "}
             <p className="instructions">
               Roll until all dice have the same value. Click each die to freeze
               it at its current value between rolls.
             </p>
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 3,
-                justifyContent: "space-between",
-                mt: "1rem",
-              }}
-            >
+            <Box className="dice_container">
               {dice?.map((die) => (
                 <Die
                   key={die.id}
@@ -100,44 +97,30 @@ export default function App() {
                 </Die>
               ))}
             </Box>
+            <Box className="app_counters">
+              <Typography variant="h6">{`You have rolled ${rolls} times`}</Typography>
+              <Timer rolls={rolls} hasWon={hasWon} setSeconds={setSeconds}>
+                Time ellapsed: {formatTime(seconds)}
+              </Timer>
+            </Box>
           </Box>
         ) : (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              alignItems: "center",
-              color: "#57cc99",
-              mt: "2rem",
-              mb: "6.3rem",
-            }}
-          >
-            <h2 style={{ fontSize: "2.5rem", margin: "0.5rem" }}>
-              Congratulations!
-            </h2>
-            <h2 style={{ fontSize: "2.5rem", margin: "0.5rem" }}>You won!</h2>
+          <Box className="app_main">
+            <Box className="win_msg">
+              <h3 style={{ fontSize: "2.5rem", margin: "0.5rem" }}>
+                Congratulations!
+              </h3>
+              <h3 style={{ fontSize: "2.5rem", margin: "0.5rem" }}>You won!</h3>
+            </Box>
+            <Box className="win_counters">
+              <p>Your rolls: {rolls}</p>
+              <p>Your time: {seconds.toString().padStart(2, "0")}"</p>
+            </Box>
           </Box>
         )}
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "1rem",
-            mt: "1rem",
-          }}
-        >
-          <Typography variant="h6">{`You have rolled ${rolls} times`}</Typography>
-          <Timer rolls={rolls} hasWon={hasWon} />
+        <Box className="app_button">
+          <button onClick={rollDice}>{hasWon ? "New Game" : "Roll"}</button>
         </Box>
-        <Button
-          variant="contained"
-          onClick={rollDice}
-          sx={{ mt: "1rem", width: "8rem" }}
-        >
-          {hasWon ? "New Game" : "Roll"}
-        </Button>
       </div>
     </div>
   );
