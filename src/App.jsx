@@ -15,14 +15,7 @@ export default function App() {
   const [seconds, setSeconds] = useState(0);
   const [rollsHistory, setRollHistory] = useState([]);
   const [timeHistory, setTimeHistory] = useState([]);
-  // const [bestScore, setBestScore] = useState(0);
-  // const [bestTime, setBestTime] = useState(0);
-
-  // useEffect(() => {
-  //   setBestScore(findMin(sessionStorage.getItem("rolls")));
-  //   setBestTime(formatTime(findMin(sessionStorage.getItem("time"))));
-  // }, [rollsHistory, timeHistory]);
-
+ 
   useEffect(() => {
     const allDiceHeld = dice.every((die) => die.isHeld);
     const allDiceSame = dice.every((die) => die.value === dice[0].value);
