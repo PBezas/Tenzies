@@ -119,13 +119,17 @@ body {
 .win_counters {
   font-size: 1.4rem;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-flow: row wrap;
+  justify-content: space-around;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   color: #000;
   margin-top: 1rem;
   margin-bottom: 2rem;
+}
+
+.win_counters p {
+  margin: 0;
 }
 
 .app_button {
@@ -143,7 +147,6 @@ body {
   background-color: #4fe6a4;
   border: none;
   border-radius: 5px;
-  /* font-family: "Caprasimo", "cursive"; */
   font-weight: 900;
   cursor: pointer;
 }

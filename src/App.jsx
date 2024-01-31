@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Confetti from "react-confetti";
 import Die from "./components/Die";
 
-import { generateNewDie, formatTime } from "./lib";
+import { generateNewDie, formatTime, findMin } from "./lib";
 import Timer from "./components/Timer";
 import Typography from "@mui/material/Typography";
 
@@ -14,6 +13,15 @@ export default function App() {
   const [rolls, setRolls] = useState(0);
   const [hasWon, setHasWon] = useState(false);
   const [seconds, setSeconds] = useState(0);
+  const [rollsHistory, setRollHistory] = useState([]);
+  const [timeHistory, setTimeHistory] = useState([]);
+  // const [bestScore, setBestScore] = useState(0);
+  // const [bestTime, setBestTime] = useState(0);
+
+  // useEffect(() => {
+  //   setBestScore(findMin(sessionStorage.getItem("rolls")));
+  //   setBestTime(formatTime(findMin(sessionStorage.getItem("time"))));
+  // }, [rollsHistory, timeHistory]);
 
   useEffect(() => {
     const allDiceHeld = dice.every((die) => die.isHeld);
@@ -25,13 +33,26 @@ export default function App() {
   }, [dice]);
 
   useEffect(() => {
-    let rollsHistory = [];
     if (hasWon) {
-      rollsHistory.push(rolls);
-      localStorage.setItem("rolls", JSON.stringify(rollsHistory));
-      localStorage.setItem("time", seconds);
+      if (!rollsHistory.includes(rolls) && rolls > 0) {
+        setRollHistory((prev) => [...prev, rolls]);
+      } else {
+        setRollHistory((prev) => [...prev]);
+      }
+      if (!timeHistory.includes(seconds) && seconds > 0) {
+        setTimeHistory((prev) => [...prev, seconds]);
+      } else {
+        setTimeHistory((prev) => [...prev]);
+      }
     }
   }, [hasWon]);
+
+  useEffect(() => {
+    if (hasWon) {
+      sessionStorage.setItem("rolls", JSON.stringify([...rollsHistory]));
+      sessionStorage.setItem("time", JSON.stringify([...timeHistory]));
+    }
+  }, [hasWon, rollsHistory, timeHistory]);
 
   function allNewDice() {
     const newDice = [];
@@ -114,7 +135,11 @@ export default function App() {
             </Box>
             <Box className="win_counters">
               <p>Your rolls: {rolls}</p>
-              <p>Your time: {seconds.toString().padStart(2, "0")}"</p>
+              <p>Your time: {formatTime(seconds)}</p>
+              <p>Best score: {findMin(sessionStorage.getItem("rolls"))}</p>
+              <p>
+                Best time: {formatTime(findMin(sessionStorage.getItem("time")))}
+              </p>
             </Box>
           </Box>
         )}

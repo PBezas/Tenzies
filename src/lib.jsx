@@ -24,4 +24,8 @@ export const formatTime = (time) => {
     .padStart(2, "0")}`;
 };
 
-
+export const findMin = (arr) => {
+  const array = JSON.parse(arr);
+  const min = Math.min(...array);
+  return min;
+};
